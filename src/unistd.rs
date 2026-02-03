@@ -1087,11 +1087,13 @@ pub fn fchownat<Fd: std::os::fd::AsFd, P: ?Sized + NixPath>(
 
 feature! {
 #![feature = "process"]
-fn to_exec_array<S: AsRef<CStr>>(args: &[S]) -> Vec<*const c_char> {
+fn to_exec_array<S: AsRef<CStr>>(args: &[S]) -> Vec<*mut c_char> {
     use std::iter::once;
     args.iter()
-        .map(|s| s.as_ref().as_ptr())
-        .chain(once(ptr::null()))
+        // fixme: cast_mut is a very dirty fix for the libc change from *cont to *mut,
+        // I did not check safety, just want to make it compile for now
+        .map(|s| s.as_ref().as_ptr().cast_mut())
+        .chain(once(ptr::null_mut()))
         .collect()
 }
 

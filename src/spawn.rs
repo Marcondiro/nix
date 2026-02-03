@@ -204,7 +204,7 @@ libc_bitflags!(
     /// Process attributes to be changed in the new process image when invoking [`posix_spawn`]
     /// or [`posix_spawnp`]. See
     /// [posix_spawn](https://pubs.opengroup.org/onlinepubs/9699919799/functions/posix_spawn.html).
-    pub struct PosixSpawnFlags: libc::c_int {
+    pub struct PosixSpawnFlags: libc::c_short {
         /// Reset effective user ID of the child process to parent's real user ID.
         POSIX_SPAWN_RESETIDS;
         /// Put the child in a process group specified by the spawn-pgroup attribute. See
